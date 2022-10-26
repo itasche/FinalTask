@@ -1,6 +1,8 @@
 package com.example.finaltask
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 private const val TAG = "DataAdapter.kt"
@@ -25,6 +28,7 @@ class DataAdapter(
 
         val ibItemDelete: ImageButton = itemView.findViewById(R.id.ibItemDelete)
         val ibItemEdit: ImageButton = itemView.findViewById(R.id.ibItemEdit)
+        val cvItemBookmark: CardView = itemView.findViewById(R.id.cvItemBookmark)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
@@ -40,6 +44,19 @@ class DataAdapter(
         holder.tvItemRow.text = dataList[position].itemRowNumber.toString()
         holder.tvItemName.text = dataList[position].itemName
         holder.tvItemUrl.text = dataList[position].itemUrl
+
+        holder.tvItemName.setOnClickListener {
+            val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(holder.tvItemUrl.text as String))
+            try {
+                it.context.startActivity(browserIntent)
+            } catch (e: Throwable) {
+                Toast.makeText(
+                    it.context,
+                    R.string.toastInvalidUrl,
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        }
 
         holder.ibItemDelete.setOnClickListener { outerIt ->
 

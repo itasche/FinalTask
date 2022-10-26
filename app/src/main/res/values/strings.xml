@@ -24,5 +24,6 @@
     <string name="toastSaved">saved!</string>
     <string name="toastDeleted">deleted!</string>
     <string name="toastNameAlreadyExists">A web bookmark with that name already exists!\n Please enter another name.</string>
+    <string name="toastInvalidUrl">Invalid URL!</string>
 
 </resources>

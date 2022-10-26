@@ -43,6 +43,9 @@ class DbHelper (
     fun addName(name: String, url: String) {
         Log.d(TAG, "addName(...) вызвана")
 
+        var url: String = url
+        if (!url.contains("://")) url = "http://$url"
+
         val values = ContentValues().apply {
             put(NAME_COL, name)
             put(URL_COL, url)
@@ -59,6 +62,9 @@ class DbHelper (
 
     fun editName(row: Int, name: String, url: String) {
         Log.d(TAG, "editName(...) вызвана")
+
+        var url: String = url
+        if (!url.contains("://")) url = "http://$url"
 
         val values = ContentValues().apply {
             put(ROW_COL, row)
