@@ -80,7 +80,7 @@
                 android:gravity="start|center_vertical"
                 android:textSize="14sp"
                 android:textAlignment="gravity"
-                tools:text="@string/tvItemNumberExaple"/>
+                tools:text="@string/exampleNumber"/>
 
             <TextView
                 android:id="@+id/tvItemUrl"
@@ -92,7 +92,7 @@
                 android:maxLines="1"
                 android:textSize="14sp"
                 android:textAlignment="gravity"
-                tools:text="@string/tvItemUrlExample"/>
+                tools:text="@string/exampleUrl"/>
 
         </LinearLayout>
     </LinearLayout>

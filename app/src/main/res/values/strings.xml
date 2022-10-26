@@ -5,21 +5,24 @@
     <string name="btNewBookmark">Add new</string>
 
     <string name="tvItemNameExample">Bookmark name example</string>
-    <string name="tvItemUrlExample">https://example.com/?param=long_time_ago_in_a_galaxy_far_far_away</string>
-    <string name="tvItemNumberExaple">1244</string>
+    <string name="exampleUrl">https://example.com/?param=long_time_ago_in_a_galaxy_far_far_away</string>
+    <string name="exampleNumber">1244</string>
+    <string name="exampleText">Example text</string>
 
     <string name="tvAddEditFragmentName">Name:</string>
     <string name="tvAddEditFragmentUrl">URL:</string>
-    <string name="etTextExample">Example text</string>
     <string name="etNameHint">name</string>
     <string name="etUrlHint">URL</string>
     <string name="btCancelText">Cancel</string>
     <string name="btConfirmText">Confirm</string>
-    <string name="btAddText">Add</string>
-    <string name="btEditText">Save</string>
+    <string name="btAddFragmentText">Add</string>
+    <string name="btEditFragmentText">Save</string>
 
     <string name="tvConfirmDeleteRequest">Are you sure you want\nto delete the bookmark?</string>
 
     <string name="toastAdded">added!</string>
+    <string name="toastSaved">saved!</string>
+    <string name="toastDeleted">deleted!</string>
+    <string name="toastNameAlreadyExists">A web bookmark with that name already exists!\n Please enter another name.</string>
 
 </resources>

@@ -52,7 +52,8 @@
             android:layout_height="wrap_content"
             android:hint="@string/etUrlHint"
             android:textSize="22sp"
-            tools:text="@string/etTextExample"/>
+            android:inputType="textUri"
+            tools:text="@string/exampleUrl"/>
 
         <LinearLayout
             android:layout_width="match_parent"

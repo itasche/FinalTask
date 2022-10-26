@@ -15,20 +15,12 @@ class DbHelper (
 ): SQLiteOpenHelper(context, DATABASE_NAME, factory, DATABASE_VERSION) {
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val query = "CREATE TABLE $TABLE_NAME($ROW_COL INTEGER PRIMARY KEY, $NAME_COL TEXT, $URL_COL TEXT)"
+        val query = "CREATE TABLE $TABLE_NAME($ROW_COL INTEGER PRIMARY KEY, $NAME_COL TEXT NOT NULL, $URL_COL TEXT NOT NULL)"
         db!!.execSQL(query)
         Log.d(TAG, "db.execSQL(\"CREATE TABLE $TABLE_NAME($ROW_COL INTEGER PRIMARY KEY, $NAME_COL TEXT, $URL_COL TEXT)\" вызвана")
     }
 
-    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-
-    }
-
-    fun onUpgrade(db: SQLiteDatabase?) {
-        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
-        Log.d(TAG, "execSQL(\"DROP TABLE IF EXISTS $TABLE_NAME\") вызвана")
-        onCreate(db)
-    }
+    override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {  }
 
     override fun getWritableDatabase(): SQLiteDatabase {
         val db = super.getWritableDatabase()
@@ -40,7 +32,10 @@ class DbHelper (
         Log.d(TAG, "dropDB() вызвана")
 
         val db = this.writableDatabase
-        onUpgrade(db)
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        Log.d(TAG, "execSQL(\"DROP TABLE IF EXISTS $TABLE_NAME\") вызвана")
+
+        onCreate(db)
         db.close()
         Log.d(TAG, "db.close() вызвана\nСтатус базы данных: db.isOpen = ${db.isOpen}")
     }
@@ -48,13 +43,45 @@ class DbHelper (
     fun addName(name: String, url: String) {
         Log.d(TAG, "addName(...) вызвана")
 
-        val values = ContentValues()
+        val values = ContentValues().apply {
+            put(NAME_COL, name)
+            put(URL_COL, url)
+        }
+
         val db = this.writableDatabase
 
-        values.put(NAME_COL, name)
-        values.put(URL_COL, url)
         Log.d(TAG, "db.insert(...) вызвана, возвращено: ${
             db.insert(TABLE_NAME, null, values)
+        }")
+        db.close()
+        Log.d(TAG, "db.close() вызвана. Статус базы данных: db.isOpen = ${db.isOpen}")
+    }
+
+    fun editName(row: Int, name: String, url: String) {
+        Log.d(TAG, "editName(...) вызвана")
+
+        val values = ContentValues().apply {
+            put(ROW_COL, row)
+            put(NAME_COL, name)
+            put(URL_COL, url)
+        }
+
+        val db = this.writableDatabase
+
+        Log.d(TAG, "db.replace(...) вызвана, возвращено: ${
+            db.replace(TABLE_NAME, null, values)
+        }")
+        db.close()
+        Log.d(TAG, "db.close() вызвана. Статус базы данных: db.isOpen = ${db.isOpen}")
+    }
+
+    fun deleteName(name: String) {
+        Log.d(TAG, "deleteName(...) вызвана")
+
+        val db = this.writableDatabase
+
+        Log.d(TAG, "db.delete(...) вызвана, возвращено: ${
+            db.delete(TABLE_NAME, NAME_COL + "= ?", arrayOf(name))
         }")
         db.close()
         Log.d(TAG, "db.close() вызвана. Статус базы данных: db.isOpen = ${db.isOpen}")
@@ -67,6 +94,16 @@ class DbHelper (
         Log.d(TAG, "db.rawQuery(\"SELECT * FROM $TABLE_NAME\", null) вызвана:\ncursor = $cursor")
         return cursor
     }
+
+/* fun nameAlreadyExists(name: String): Boolean {
+* val db = this.readableDatabase
+*
+* Здесь должен быть текст запроса к SQLite для проверки наличия name в NAME_COL,
+* но я пока не знаю SQL =(
+* так что реализую проверку на наличие не в базе данных, а в модели данных
+* для адаптера (т.е. в dataList: ArrayList<DataModel>)
+*
+* }*/
 
     companion object {
         private const val DATABASE_NAME = "finaltask"
